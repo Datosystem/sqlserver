@@ -122,7 +122,7 @@ func Create(db *gorm.DB) {
 			rows, err := db.Statement.ConnPool.QueryContext(db.Statement.Context, db.Statement.SQL.String(), db.Statement.Vars...)
 			if db.AddError(err) == nil {
 				defer rows.Close()
-				gorm.Scan(rows, db, gorm.ScanUpdate)
+				gorm.Scan(rows, db, gorm.ScanUpdate|gorm.ScanOnConflictDoNothing)
 			}
 		} else {
 			result, err := db.Statement.ConnPool.ExecContext(db.Statement.Context, db.Statement.SQL.String(), db.Statement.Vars...)
